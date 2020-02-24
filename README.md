@@ -5,10 +5,13 @@ This is an experimental integration between Knative Serving and Decco to achieve
 
 ## Technical overview of Proof of Concept
 
-- qbert service
-- Ambassador service change (had to make a small change to allow incoming traffic, otherwise got disconnects)
+- Ambassador service: had to make a small change to the `ambassador` service
+  resource to allow incoming traffic, otherwise got disconnects. I think the
+  necessary change was to eliminate the 
 - rename of qbert ingress & service resources to avoid conflict with similar resources managed by Ambassador and Knative.
-- had to hack Ambassador to increase request timeout from 3 secs to 60 secs to tolerate pod startup time.
+- had to hack Ambassador to increase request timeout from 3 secs to 60 secs to
+  tolerate pod startup time: https://github.com/datawire/ambassador/blob/master/python/ambassador/envoy/v2/v2route.py#L150
+  (changed 3000 to 60000). TODO: find if there's a way to do this via configuration change instead.
 - to work around Knative's required service URL scheme (https://servicename.namespace.lb-fqdn) and reconcile with DU scheme (https://du-fqdn/servicename), and also address TLS Cert and CORS issues, had to insert a new nginx-based proxy to forward to Ambassador-managed ingress endpoint.
 - made changes to qbert container to work around Knative pod limitations:
   - all logs must go in /var/log (subdirectories not allowed)

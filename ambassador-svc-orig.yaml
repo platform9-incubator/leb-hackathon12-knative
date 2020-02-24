@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"ambassador-service","product":"aes"},"name":"ambassador","namespace":"ambassador"},"spec":{"externalTrafficPolicy":"Local","ports":[{"name":"http","port":80,"targetPort":"http"},{"name":"https","port":443,"targetPort":"https"}],"selector":{"service":"ambassador"},"type":"LoadBalancer"}}
+  creationTimestamp: "2020-02-17T22:38:42Z"
+  labels:
+    app.kubernetes.io/component: ambassador-service
+    product: aes
+  name: ambassador
+  namespace: ambassador
+  resourceVersion: "6079364"
+  selfLink: /api/v1/namespaces/ambassador/services/ambassador
+  uid: 3f9cc439-51d6-11ea-b063-0ad3447ccd3a
+spec:
+  clusterIP: 10.21.35.5
+  externalTrafficPolicy: Local
+  healthCheckNodePort: 30996
+  ports:
+  - name: http
+    nodePort: 32380
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: https
+    nodePort: 31986
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    service: ambassador
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - hostname: a3f9cc43951d611eab0630ad3447ccd3-1979666092.us-west-2.elb.amazonaws.com
